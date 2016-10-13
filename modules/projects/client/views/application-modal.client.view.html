@@ -1,0 +1,21 @@
+
+<div class="modal-header">
+  <h4 class="modal-title">
+    <span ng-if="$modalCtrl.application.user">
+      <img data-ng-src="{{$modalCtrl.application.user.profileImageURL}}" alt="{{$modalCtrl.application.user.displayName}}" data-toggle="tooltip" title="{{$modalCtrl.application.user.displayName}}" class="leader-profile-image" />
+    </span>
+    <span ng-if="$modalCtrl.application.user" ng-bind="$modalCtrl.application.user.displayName"></span>
+    <span ng-if="!$modalCtrl.application.user">Deleted User</span>
+  </h4>
+</div>
+<div class="modal-body">
+  <article ng-bind = "$modalCtrl.application.application" class = "preformatted"></article>
+</div>
+<div class="modal-footer">
+  <span>Status: </span>
+  <span ng-show="$modalCtrl.application.status === 1">Accepted</span>
+  <span ng-show="$modalCtrl.application.status === 0">Pending</span>
+  <span ng-show="$modalCtrl.application.status === -1">Rejected</span>
+  <!-- <button type="button" class="btn custom-btn-cancel" ng-click = "$modalCtrl.reject()">Reject</button>
+  <button type="button" class="btn custom-btn" ng-click = "$modalCtrl.accept()">Accept</button> -->
+</div>

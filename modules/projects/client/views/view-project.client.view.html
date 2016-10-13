@@ -1,0 +1,186 @@
+<section>
+  <div class="page-header">
+
+    <div class = "row" style = "margin-bottom: 1rem;">
+      <div class="col-md-12">
+        <h1 ng-bind="vm.project.projectName"></h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 col-sm-12 col-xs-12">
+
+        <div class = "row" style = "margin-bottom: 1rem">
+          <div class = "col-md-12">
+            <span data-ng-show = "vm.project.stack.length !== 0" data-ng-repeat = "stack in vm.project.stack">
+              <a style = "margin-bottom: 0.5rem" class="btn btn-sm custom-btn"
+                 ui-sref="home">
+                 {{stack}}
+              </a>
+            </span>
+          </div>
+        </div>
+
+        <article ng-bind = "vm.project.description" class = "preformatted"></article>
+      </div>
+
+
+      <div class="visible-sm visible-xs col-sm-12 col-xs-12">
+          <div class = "border-sm visible-sm visible-xs"></div>
+      </div>
+
+
+      <div class="col-md-4 col-sm-12 col-xs-12">
+
+        <div class = "row">
+          <div class = "col-md-12 col-sm-12 col-xs-12">
+            <h4>Approximate Start Date</h4>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <div class = "text-muted">Month:</div>
+          </div>
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <span>{{startMonth? startMonth : 'Unspecified'}}</span>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <div class = "text-muted">Year:</div>
+          </div>
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <span>{{startYear? startYear : 'Unspecified'}}</span>
+          </div>
+        </div>
+
+
+
+        <div class = "row">
+          <div class = "col-md-12 col-sm-12 col-xs-12">
+            <h4>Approximate End Date</h4>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <div class = "text-muted">Month:</div>
+          </div>
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <span>{{endMonth? endMonth : 'Unspecified'}}</span>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <div class = "text-muted">Year:</div>
+          </div>
+          <div class = "col-md-6 col-sm-3 col-xs-3">
+            <span>{{endYear? endYear : 'Unspecified'}}</span>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class = "row">
+          <div class = "col-md-12">
+            <h4>Location</h4>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-12">
+            <span>{{vm.project.location? vm.project.location : 'Unspecified'}}</span>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-12">
+            <h4>Leaders</h4>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col-md-12">
+            <span data-ng-repeat = "leader in vm.project.leaders" data-ng-show = "vm.project.leaders.length !== 0">
+              <img style = "margin-bottom: 0.5rem" data-ng-src="{{leader.profileImageURL}}" alt="{{leader.displayName}}" data-toggle="tooltip" title="{{leader.displayName}}" class="leader-profile-image" />
+            </span>
+            <span data-ng-show = "vm.project.leaders.length === 0">No leaderss</span>
+          </div>
+        </div>
+
+        <div class = "row">
+          <div class = "col-md-12">
+            <h4>Members</h4>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col-md-12">
+            <span data-ng-repeat = "member in vm.project.members" data-ng-show = "vm.project.members.length !== 0">
+              <img style = "margin-bottom: 0.5rem" data-ng-src="{{member.profileImageURL}}" alt="{{member.displayName}}" data-toggle="tooltip" title="{{member.displayName}}" class="leader-profile-image" />
+            </span>
+            <span data-ng-show = "vm.project.members.length === 0">No members</span>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+  </div>
+  <div class="pull-right" ng-show="vm.project.isCurrentUserOwner || vm.project.isALeader">
+    <a class="btn custom-btn"
+      ui-sref="projects.applications({ projectId: vm.project._id })">
+      Applications
+    </a>
+    <a class="btn custom-btn"
+       ui-sref="projects.edit({ projectId: vm.project._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn custom-btn" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+
+  <div class="pull-right"
+       ng-show="!vm.project.isCurrentUserOwner && !vm.project.isALeader && !vm.project.isAMember">
+       <button type="button" class="btn custom-btn" data-toggle="modal" data-target="#joinProject">
+        Apply
+      </button>
+  </div>
+
+  <div class="modal fade" id="joinProject" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Application</h4>
+        </div>
+        <div class="modal-body">
+          <textarea type="text" ng-model="application" class="form-control custom-input" placeholder="Application will be reviewed by project leaders" rows="10" id="application"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn custom-btn-cancel" data-dismiss="modal">Close</button>
+          <button type="button" ng-click="vm.apply()" data-dismiss="modal" class="btn custom-btn">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="vm.project.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.project.user"
+            ng-bind="vm.project.user.displayName"></span>
+      <span ng-if="!vm.project.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.project.content"></p>
+</section>

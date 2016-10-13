@@ -1,0 +1,70 @@
+<section>
+  <div class="page-header">
+    <h1>Projects</h1>
+  </div>
+  <div class = "row">
+    <div class = "col-md-12">
+      <div class="input-group">
+        <input type="text" class="form-control custom-input" placeholder="Search for project name or technology stack keywords">
+        <span class="input-group-btn">
+          <button class="btn custom-btn" type="button">Go!</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class = "project-divide-bottom" style = "margin-bottom: 2rem"></div>
+  <div class="row">
+    <div ng-repeat="project in vm.projects" ui-sref="projects.view({ projectId: project._id })" class = "col-md-12 project-group">
+
+          <h4>{{project.projectName}}</h4>
+
+          <span data-ng-repeat = "leader in project.leaders" data-ng-show = "project.leaders.length !== 0" style = "margin-bottom: 1rem">
+            <img style = "margin-bottom: 0.5rem" data-ng-src="{{leader.profileImageURL}}" alt="{{leader.displayName}}" data-toggle="tooltip" title="{{leader.displayName}}" class="leader-profile-image" />
+          </span>
+
+          <div class = "row" style = "margin-bottom: 2rem">
+            <div class = "col-md-12">
+              <article class = "preformatted">{{project.description}}</article>
+            </div>
+          </div>
+
+          <div class = "row" style = "margin-bottom: 1rem">
+            <div class = "col-md-12">
+              <span data-ng-show = "project.stack.length !== 0" data-ng-repeat = "stack in project.stack">
+                <a style = "margin-bottom: 0.5rem" class="btn btn-sm custom-btn"
+                   ui-sref="home">
+                   {{stack}}
+                </a>
+              </span>
+
+            </div>
+          </div>
+
+          <small class = "text-muted pull-right" >
+            Posted on
+            <span ng-bind="project.created | date:'mediumDate'"></span>
+            by
+            <span ng-if="project.user" ng-bind="project.user.displayName"></span>
+            <span ng-if="!project.user">Deleted User</span>
+          </small>
+          <div class = "project-divide-bottom"> </div>
+    </div>
+
+    <!--
+    <a ng-repeat="project in vm.projects" ui-sref="projects.view({ projectId: project._id })" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="project.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="project.user" ng-bind="project.user.displayName"></span>
+        <span ng-if="!project.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="project.name"></h4>
+    </a>
+    -->
+  </div>
+
+  <div class="alert alert-warning text-center" ng-if="vm.projects.$resolved && !vm.projects.length">
+    No Projects yet, why don't you <a ui-sref="projects.create">create one</a>?
+  </div>
+</section>

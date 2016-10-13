@@ -1,0 +1,77 @@
+<section>
+  <div class="page-header">
+    <h1>Applications</h1>
+  </div>
+
+  <div class = "row" style = "margin-bottom: 2rem">
+    <div class = "col-md-12">
+      <input type="text" ng-model = "applicationFilter" class="form-control custom-input" placeholder="Filter applications by keywords">
+    </div>
+  </div>
+
+  <div class ="row">
+    <div class = "col-md-9 col-sm-12 col-xs-12">
+      <div class="list-group">
+        <div ng-click = "vm.modalUpdate('lg', '.modal-parent', application)" ng-repeat="application in vm.project.applications | filter:{application: applicationFilter, showInProject : true}" ng-class = "{accepted : application.status === 1, rejected : application.status === -1}" class="list-group-item application">
+          <div>
+            <small class="list-group-item-text">
+              <span ng-if="application.user">
+                <img data-ng-src="{{application.user.profileImageURL}}" alt="{{application.user.displayName}}" data-toggle="tooltip" title="{{application.user.displayName}}" class="leader-profile-image" />
+              </span>
+              <span ng-if="application.user" ng-bind="application.user.displayName"></span>
+              <span ng-if="!application.user">Deleted User</span>
+              :
+              <span ng-bind="application.created | date:'mediumDate'"></span>
+
+              <span ng-show = "application.status === 0">
+                <button ng-click = "$event.stopPropagation(); vm.handleApp(application, 1)" class="btn btn-sm custom-btn pull-right">
+                  <i class="glyphicon glyphicon-ok"></i>
+                </button>
+              </span>
+              <span ng-show = "application.status === 0">
+                <button ng-click = "$event.stopPropagation(); vm.handleApp(application, -1)" class="btn btn-sm custom-btn-cancel pull-right" style = "margin-right: 1rem">
+                  <i class="glyphicon glyphicon-remove"></i>
+                </button>
+              </span>
+
+
+              <span ng-show = "application.status !== 0">
+                <button ng-click = "$event.stopPropagation(); vm.handleApp(application, 2)" class="btn btn-sm custom-btn pull-right" style = "margin-right: 1rem">
+                  Hide
+                </button>
+              </span>
+
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class ="col-md-3 hidden-sm hidden-xs">
+      <div class = "row">
+        <div class = "col-md-12">
+          <h4>Pending Applications</h4>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-md-12">
+          <span>{{(vm.project.applications | filter : { status : 0 }).length}}</span>
+        </div>
+      </div>
+
+      <div class = "row">
+        <div class = "col-md-12">
+          <h4>Total Applications</h4>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col-md-12">
+          <span>{{vm.project.numberOfApplications}}</span>
+        </div>
+      </div>
+
+  </div>
+
+  <div class="modal-parent">
+  </div>
+</section>
